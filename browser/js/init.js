@@ -15,7 +15,7 @@
 
     // ----- Initialize
 
-    var falseInformation = repository.getAllFalseInformation();
+    var falseInformation = repository.getAllFalseInformation(document.URL);
     falseInformation.forEach(data => {
         var range = createRange(
             data.firstTextNodeXPath,
@@ -71,13 +71,17 @@
         var self = this;
 
         self.getAllFalseInformation = function(pageUrl) {
-            return JSON.parse(localStorage.getItem('ranges') || '[]');
+            var dictionary = JSON.parse(localStorage.getItem('false-information') || '{}');
+            return dictionary[pageUrl] || [];
         }
 
         self.report = function(pageUrl, falseInformation) {
-            var reportedSentences = JSON.parse(localStorage.getItem('ranges') || '[]');
-            reportedSentences.push(falseInformation);
-            localStorage.setItem('ranges', JSON.stringify(reportedSentences));
+            var reportedSentences = JSON.parse(localStorage.getItem('false-information') || '{}');
+            if(reportedSentences.hasOwnProperty(pageUrl) == false) {
+                reportedSentences[pageUrl] = [];
+            }
+            reportedSentences[pageUrl].push(falseInformation);
+            localStorage.setItem('false-information', JSON.stringify(reportedSentences));
         }
 	}
 
