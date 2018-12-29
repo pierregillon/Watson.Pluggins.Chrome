@@ -1,6 +1,25 @@
 (function(){
     'use strict';
 
+    chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
+		if(msg == "getSelectedText") {
+			var selection = document.getSelection();
+			if(selection) {
+				var range = selection.getRangeAt(0);
+				if (range) {
+                    var text = range
+                        .cloneContents()
+                        .textContent
+                        .split(/\r\n|\r|\n/g)
+                        .filter(function(str) {return str.length != 0; })
+                        .join(" ")
+                        
+					sendResponse(text);
+				}
+			}		
+		}
+	});
+
     var repository = new FalseInformationRepository();
     var falseInformation = repository.getAllFalseInformation();
     falseInformation.forEach(data => {

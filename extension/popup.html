@@ -7,13 +7,19 @@
         }
         button {
           padding: 10px;
+          left:40%;
+          right:40%;
+        }
+        .quote {
+          font-size: 18px;
+          font-style: italic;
         }
       </style>
     </head>
     <body>
-      <h1>Fake news checker</h1>
-      <p>Select fake news sentence, and save it to share it with the communities.</p>
-      <button id="saveFakeNews">Save !</button>
+      <h1>False information checker</h1>
+      <p class="quote">"<span id="selectedText"></span>"</p>
+      <button id="saveFakeNews">Report this</button>
       <script src="./popup.js"></script>
     </body>
   </html>

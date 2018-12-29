@@ -6,3 +6,10 @@ saveFakeNews.onclick = function(element) {
             {file: './browser/js/highlight-selected-text.js'});
     });
 };
+
+let selectedText = document.getElementById('selectedText');
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, "getSelectedText", function(text){
+        selectedText.innerText = text;
+    });
+});
