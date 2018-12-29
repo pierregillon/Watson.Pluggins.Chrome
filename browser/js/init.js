@@ -5,9 +5,8 @@
     var falseInformation = repository.getAllFalseInformation();
     falseInformation.forEach(data => {
         var range = createRange(
-            data.paragraphSelector, 
-            data.textNodeStartIndex, 
-            data.textNodeEndIndex, 
+            data.firstTextNodeXPath,
+            data.lastTextNodeXPath,
             data.offsetStart, 
             data.offsetEnd);
         
@@ -16,13 +15,9 @@
         }
     });
 
-    function createRange(paragraphSelector, textNodeStartIndex, textNodeEndIndex, offsetStart, offsetEnd) {
-        var domElement = document.querySelector(paragraphSelector);
-        if(!domElement) {   
-            return undefined;
-        }
-        var textNodeStart = domElement.childNodes[textNodeStartIndex];
-        var textNodeEnd = domElement.childNodes[textNodeEndIndex];
+    function createRange(firstTextNodeXPath, lastTextNodeXPath, offsetStart, offsetEnd) {
+        var textNodeStart = document.evaluate(firstTextNodeXPath, document, null, XPathResult.ANY_TYPE, null).iterateNext();
+        var textNodeEnd = document.evaluate(lastTextNodeXPath, document, null, XPathResult.ANY_TYPE, null).iterateNext()
         var range = new Range();
         range.setStart(textNodeStart, offsetStart);
         range.setEnd(textNodeEnd, offsetEnd);
