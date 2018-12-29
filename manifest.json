@@ -18,6 +18,7 @@
             "matches": ["<all_urls>"],
             "css": [],
             "js": [
+              "./browser/js/xpath.js",
               "./browser/js/utils.js",
               "./browser/js/init.js"
             ]
