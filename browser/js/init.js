@@ -1,24 +1,22 @@
 (function(){
     'use strict';
 
-    var rangeData = JSON.parse(localStorage.getItem('ranges') || '[]');
-    if(rangeData) {
-        rangeData.forEach(data => {
-            var range = getRange(
-                data.paragraphSelector, 
-                data.textNodeStartIndex, 
-                data.textNodeEndIndex, 
-                data.offsetStart, 
-                data.offsetEnd);
-            
-            if (range) {
-                highlight(range, "red");
-            }
-        });
+    var repository = new FalseInformationRepository();
+    var falseInformation = repository.getAllFalseInformation();
+    falseInformation.forEach(data => {
+        var range = createRange(
+            data.paragraphSelector, 
+            data.textNodeStartIndex, 
+            data.textNodeEndIndex, 
+            data.offsetStart, 
+            data.offsetEnd);
         
-    }
+        if (range) {
+            highlight(range, "red");
+        }
+    });
 
-    function getRange(paragraphSelector, textNodeStartIndex, textNodeEndIndex, offsetStart, offsetEnd) {
+    function createRange(paragraphSelector, textNodeStartIndex, textNodeEndIndex, offsetStart, offsetEnd) {
         var domElement = document.querySelector(paragraphSelector);
         if(!domElement) {   
             return undefined;
@@ -31,4 +29,17 @@
         return range;
     }
     
+    function FalseInformationRepository(){
+        var self = this;
+
+        self.getAllFalseInformation = function(pageUrl) {
+            return JSON.parse(localStorage.getItem('ranges') || '[]');
+        }
+
+        self.report = function(pageUrl, falseInformation) {
+            var reportedSentences = JSON.parse(localStorage.getItem('ranges') || '[]');
+            reportedSentences.push(falseInformation);
+            localStorage.setItem('ranges', JSON.stringify(reportedSentences));
+        }
+    }
 })();
