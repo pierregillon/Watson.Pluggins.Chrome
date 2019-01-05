@@ -73,13 +73,13 @@
         var self = this;
 
         self.getAllFalseInformation = function (pageUrl, callback) {
-            httpClient.GET("/api/falseinformation?webPageUrl=" + pageUrl, function (data) {
+            httpClient.GET("/api/fact?url=" + pageUrl, function (data) {
                 callback(data);
             });
         }
 
         self.report = function (pageUrl, falseInformation, callback) {
-            httpClient.POST("/api/falseinformation?webPageUrl=" + pageUrl, falseInformation, function (data) {
+            httpClient.POST("/api/fact?url=" + pageUrl, falseInformation, function (data) {
                 callback(data);
             });
         }
