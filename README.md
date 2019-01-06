@@ -11,3 +11,11 @@ The Chrome pluggin (extension) let you interact with any web page content to sig
 
 # Development progress
 All features are in progress. No version is available yet. Subscribe to this repository to get posted.
+
+# In progress
+Technical :
+- Update highlight style
+- Check existing fact at same location in document (Xmap) to be sure there is no conflict
+- Update highlight injection to not alter document structure display
+- Can not create a fact on multiple dom element (p)
+- Can not create a fact already suspected
