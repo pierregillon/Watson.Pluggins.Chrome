@@ -15,7 +15,7 @@
 
     // ----- Initialize
 
-    repository.getAllFalseInformation(document.URL, function (falseInformation) {
+    repository.getAllFalseInformation(document.URL).then(function (falseInformation) {
         falseInformation.forEach(data => {
             var range = createRange(
                 data.firstTextNodeXPath,
@@ -52,7 +52,7 @@
         if (selection) {
             var range = selection.getRangeAt(0);
             if (range) {
-                repository.report(document.URL, new FalseInformation(range), function () {
+                repository.report(document.URL, new FalseInformation(range)).then(function () {
                     highlight(range, "orange");
                 });
             }
@@ -72,48 +72,54 @@
     function FalseInformationRepository(httpClient) {
         var self = this;
 
-        self.getAllFalseInformation = function (pageUrl, callback) {
-            httpClient.GET("/api/fact?url=" + btoa(pageUrl), function (data) {
-                callback(data);
-            });
+        self.getAllFalseInformation = function (pageUrl) {
+            return httpClient.GET("/api/fact?url=" + btoa(pageUrl));
         }
 
-        self.report = function (pageUrl, falseInformation, callback) {
-            httpClient.POST("/api/fact?url=" + btoa(pageUrl), falseInformation, function (data) {
-                callback(data);
-            });
+        self.report = function (pageUrl, falseInformation) {
+            return httpClient.POST("/api/fact?url=" + btoa(pageUrl), falseInformation);
         }
     }
 
     function HttpClient(server) {
         var self = this;
 
-        self.GET = function (url, callback) {
-            var client = new XMLHttpRequest();
-            client.open("GET", server + url);
-            client.setRequestHeader("Content-Type", "text/json");
-            client.send();
-            client.onload = function () {
-                if (client.status == 200) {
-                    callback(JSON.parse(client.responseText));
+        self.GET = function (url) {
+            return new Promise(function(resolve, reject) {
+                var client = new XMLHttpRequest();
+                client.open("GET", server + url);
+                client.setRequestHeader("Content-Type", "text/json");
+                client.send();
+                client.onload = function () {
+                    if (client.status == 200) {
+                        resolve(JSON.parse(client.responseText));
+                    }
+                    else {
+                        reject(client.status + " : " + client.responseText);
+                    }
                 }
-            }
+              });
         }
 
-        self.POST = function (url, body, callback) {
-            var data = new FormData();
-            for (var key in body) {
-                data.append(key, body[key]);
-            }
-
-            var client = new XMLHttpRequest();
-            client.open("POST", server + url);
-            client.send(data);
-            client.onload = function () {
-                if (client.status == 200) {
-                    callback();
+        self.POST = function (url, body) {
+            return new Promise(function(resolve, reject) {
+                var data = new FormData();
+                for (var key in body) {
+                    data.append(key, body[key]);
                 }
-            }
+
+                var client = new XMLHttpRequest();
+                client.open("POST", server + url);
+                client.send(data);
+                client.onload = function () {
+                    if (client.status == 200) {
+                        resolve();
+                    }
+                    else {
+                        reject(client.status + " : " + client.responseText);
+                    }
+                }
+            });
         }
     }
 
