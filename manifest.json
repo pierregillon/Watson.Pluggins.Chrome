@@ -26,6 +26,9 @@
             ],
             "css": [],
             "js": [
+                "./browser/js/HttpClient.js",
+                "./browser/js/Fact.js",
+                "./browser/js/FactRepository.js",
                 "./browser/js/xpath.js",
                 "./browser/js/utils.js",
                 "./browser/js/init.js"
