@@ -20,8 +20,8 @@
             var range = createRange(
                 data.firstTextNodeXPath,
                 data.lastTextNodeXPath,
-                data.offsetStart,
-                data.offsetEnd);
+                data.startOffset,
+                data.endOffset);
 
             if (range) {
                 highlight(range, "red");
@@ -62,24 +62,24 @@
     function FalseInformation(range) {
         var self = this;
 
-        self.firstTextNodeXPath = Xpath.getElementXPath(range.startContainer);
-        self.lastTextNodeXPath = Xpath.getElementXPath(range.endContainer);
-        self.offsetStart = range.startOffset;
-        self.offsetEnd = range.endOffset;
-        self.text = range.cloneContents().textContent;
+        self.FirstSelectedHtmlNodeXPath = Xpath.getElementXPath(range.startContainer);
+        self.LastSelectedHtmlNodeXPath = Xpath.getElementXPath(range.endContainer);
+        self.SelectedTextStartOffset = range.startOffset;
+        self.SelectedTextEndOffset = range.endOffset;
+        self.Wording = range.cloneContents().textContent;
     }
 
     function FalseInformationRepository(httpClient) {
         var self = this;
 
         self.getAllFalseInformation = function (pageUrl, callback) {
-            httpClient.GET("/api/fact?url=" + pageUrl, function (data) {
+            httpClient.GET("/api/fact?url=" + btoa(pageUrl), function (data) {
                 callback(data);
             });
         }
 
         self.report = function (pageUrl, falseInformation, callback) {
-            httpClient.POST("/api/fact?url=" + pageUrl, falseInformation, function (data) {
+            httpClient.POST("/api/fact?url=" + btoa(pageUrl), falseInformation, function (data) {
                 callback(data);
             });
         }
@@ -117,12 +117,12 @@
         }
     }
 
-    function createRange(firstTextNodeXPath, lastTextNodeXPath, offsetStart, offsetEnd) {
+    function createRange(firstTextNodeXPath, lastTextNodeXPath, startOffset, endOffset) {
         var textNodeStart = document.evaluate(firstTextNodeXPath, document, null, XPathResult.ANY_TYPE, null).iterateNext();
         var textNodeEnd = document.evaluate(lastTextNodeXPath, document, null, XPathResult.ANY_TYPE, null).iterateNext()
         var range = new Range();
-        range.setStart(textNodeStart, offsetStart);
-        range.setEnd(textNodeEnd, offsetEnd);
+        range.setStart(textNodeStart, startOffset);
+        range.setEnd(textNodeEnd, endOffset);
         return range;
     }
 })();
