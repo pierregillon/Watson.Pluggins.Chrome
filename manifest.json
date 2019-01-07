@@ -9,6 +9,8 @@
     ],
     "background": {
         "scripts": [
+            "./extension/HttpClient.js",
+            "./extension/FactRepository.js",
             "./background.js"
         ],
         "persistent": false
@@ -26,9 +28,7 @@
             ],
             "css": [],
             "js": [
-                "./browser/js/HttpClient.js",
                 "./browser/js/Fact.js",
-                "./browser/js/FactRepository.js",
                 "./browser/js/xpath.js",
                 "./browser/js/utils.js",
                 "./browser/js/init.js"

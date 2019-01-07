@@ -2,7 +2,7 @@ function FactRepository(httpClient) {
     var self = this;
     var apiRoute = "/api/fact";
 
-    self.getAllFalseInformation = function (pageUrl) {
+    self.getSuspiciousFacts = function (pageUrl) {
         return httpClient.GET(apiRoute + "?url=" + btoa(pageUrl));
     }
 
