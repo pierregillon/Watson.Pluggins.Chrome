@@ -19,7 +19,6 @@
         "default_title": "Watson",
         "default_popup": "./extension/popup.html"
     },
-    "options_page": "./extension/options.html",
     "manifest_version": 2,
     "content_scripts": [
         {
