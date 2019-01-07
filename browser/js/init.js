@@ -6,7 +6,10 @@
     chrome.runtime.onMessage.addListener(function (msg, _, sendResponse) {
         if (msg == "getSelectedText") {
             var selectedText = getUserSelectedText();
-            sendResponse(selectedText);
+            sendResponse({
+                url: document.URL,
+                text: selectedText
+            });
         }
         else if (msg == "highlightText") {
             createSuspiciousFactFromSelectedText();
