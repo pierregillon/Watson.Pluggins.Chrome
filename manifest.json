@@ -29,7 +29,6 @@
             "js": [
                 "./browser/js/Fact.js",
                 "./browser/js/xpath.js",
-                "./browser/js/utils.js",
                 "./browser/js/init.js"
             ]
         }
