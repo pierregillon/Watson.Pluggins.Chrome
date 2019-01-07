@@ -4,6 +4,7 @@
     "description": "Watson chrome extension is a collaborative web media fact checker.",
     "permissions": [
         "activeTab",
+        "tabs",
         "declarativeContent",
         "storage"
     ],
@@ -27,8 +28,8 @@
             ],
             "css": [],
             "js": [
-                "./browser/js/Fact.js",
                 "./browser/js/xpath.js",
+                "./browser/js/Fact.js",
                 "./browser/js/init.js"
             ]
         }
