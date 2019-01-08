@@ -33,8 +33,8 @@
 
     function createTextRange(firstTextNodeXPath, lastTextNodeXPath, startOffset, endOffset) {
         try {
-            var textNodeStart = document.evaluate(firstTextNodeXPath, document, null, XPathResult.ANY_TYPE, null).iterateNext();
-            var textNodeEnd = document.evaluate(lastTextNodeXPath, document, null, XPathResult.ANY_TYPE, null).iterateNext()
+            var textNodeStart = document.getElementByXPath(firstTextNodeXPath);
+            var textNodeEnd = document.getElementByXPath(lastTextNodeXPath);
             var range = new Range();
             range.setStart(textNodeStart, startOffset);
             range.setEnd(textNodeEnd, endOffset);

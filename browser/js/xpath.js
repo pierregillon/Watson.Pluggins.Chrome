@@ -1,57 +1,80 @@
-(function(window){
-    'use strict';
+Object.defineProperty(Node.prototype, "calculateXPath", {
+	value: calculateXPath,
+	writable: true,
+	configurable: true
+});
 
-    var Xpath = {};
-	
-	Xpath.getElementXPath = function(element) 	{
-		if (element && element.id)
-			return '//*[@id="' + element.id + '"]';
-		else
-			return Xpath.getElementTreeXPath(element);
-	};
+Object.defineProperty(Document.prototype, "getElementByXPath", {
+	value: getElementByXPath,
+	writable: true,
+	configurable: true
+});
 
-	Xpath.getElementTreeXPath = function(element) 	{
-		var paths = [];
-		for (; element && element.nodeType == Node.ELEMENT_NODE || element.nodeType == Node.TEXT_NODE; 
-			element = element.parentNode)
-		{
-			var index = 0;
-			var hasFollowingSiblings = false;
-			for (var sibling = element.previousSibling; sibling; 
-				sibling = sibling.previousSibling)
-			{
-				// Ignore document type declaration.
-				if (sibling.nodeType == Node.DOCUMENT_TYPE_NODE)
-					continue;
+function getElementByXPath(xPath) {
+	var evaluation = this.evaluate(xPath, document, null, XPathResult.ANY_TYPE, null);
+	if (evaluation) {
+		return evaluation.iterateNext();
+	}
+	return '';
+}
 
-				if (sibling.nodeName == element.nodeName)
-					++index;
-			}
+function calculateXPath() {
+	if (this.nodeType != Node.ELEMENT_NODE && this.nodeType != Node.TEXT_NODE) {
+		return '';
+	}
+	if (this.id) {
+		return '//*[@id="' + this.id + '"]';
+	}
 
-			for (var sibling = element.nextSibling; 
-				sibling && !hasFollowingSiblings;
-				sibling = sibling.nextSibling)
-			{
-				if (sibling.nodeName == element.nodeName)
-					hasFollowingSiblings = true;
-			}
+	if (this.parentNode) {
+		return this.parentNode.calculateXPath() + "/" + buildXPath(this);
+	}
+	else {
+		return buildXPath(this);
+	}
+}
 
-			var tagName = '';
-			if(element.nodeType == Node.TEXT_NODE) {
-				tagName = "text()";
-			}
-			else if(element.prefix) {
-				tagName = element.prefix + ":" + element.localName;
-			} 
-			else {
-				tagName = element.localName;
-			}
-			var pathIndex = (index || hasFollowingSiblings ? "[" + (index + 1) + "]" : "");
-			paths.splice(0, 0, tagName + pathIndex);
+function buildXPath(element) {
+	var tagName = '';
+	if (element.nodeType == Node.TEXT_NODE) {
+		tagName = "text()";
+	}
+	else {
+		tagName = element.localName;
+	}
+
+	if (element.prefix) {
+		tagName = element.prefix + ":" + tagName;
+	}
+
+	var ciblingIndex = getSiblingIndex(element);
+	if (ciblingIndex != -1) {
+		tagName = tagName + "[" + ciblingIndex + "]";
+	}
+
+	return tagName;
+}
+
+function getSiblingIndex(element) {
+	var index = 0;
+	var hasFollowingSiblings = false;
+
+	for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling) {
+		if (sibling.nodeType == Node.DOCUMENT_TYPE_NODE)
+			continue;
+		if (sibling.nodeName == element.nodeName)
+			index++;
+	}
+
+	for (var sibling = element.nextSibling; sibling; sibling = sibling.nextSibling) {
+		if (sibling.nodeName == element.nodeName) {
+			hasFollowingSiblings = true;
+			break;
 		}
+	}
 
-		return paths.length ? "/" + paths.join("/") : null;
-	};
-
-    window.Xpath = Xpath;
-})(window);
+	if (index || hasFollowingSiblings) {
+		return index + 1;
+	}
+	return -1;
+}
