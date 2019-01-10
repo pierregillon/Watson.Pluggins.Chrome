@@ -2,6 +2,11 @@
     "name": "Watson",
     "version": "1.0",
     "description": "Watson chrome extension is a collaborative web media fact checker.",
+    "icons": {
+        "16": "extension/images/icon-detective16.png",
+        "48": "extension/images/icon-detective48.png",
+       "128": "extension/images/icon-detective128.png" 
+    },
     "permissions": [
         "activeTab",
         "tabs",
