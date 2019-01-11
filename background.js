@@ -42,10 +42,10 @@ function updateBadge(tabId, count) {
 
 function toReadModel(fact) {
     return {
-        wording: fact.Wording,
-        firstTextNodeXPath: fact.FirstSelectedHtmlNodeXPath,
-        lastTextNodeXPath:fact.LastSelectedHtmlNodeXPath,
-        startOffset: fact.SelectedTextStartOffset,
-        endOffset: fact.SelectedTextEndOffset
+        wording: fact.wording,
+        startNodeXPath: fact.startNodeXPath,
+        endNodeXPath:fact.endNodeXPath,
+        startOffset: fact.startOffset,
+        endOffset: fact.endOffset
     };
 }

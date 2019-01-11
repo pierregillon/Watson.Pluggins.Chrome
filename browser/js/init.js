@@ -4,12 +4,7 @@
     chrome.runtime.onMessage.addListener(function (msg, _, sendResponse) {
         if(msg.type == "suspiciousFactsLoaded") {
             msg.suspiciousFacts.forEach(fact => {
-                var textRange = createTextRange(
-                    fact.firstTextNodeXPath,
-                    fact.lastTextNodeXPath,
-                    fact.startOffset,
-                    fact.endOffset);
-    
+                var textRange = createTextRange(fact);
                 if (textRange) {
                     highlight(textRange, "red");
                 }
@@ -31,13 +26,13 @@
 
     // ----- Functions
 
-    function createTextRange(firstTextNodeXPath, lastTextNodeXPath, startOffset, endOffset) {
+    function createTextRange(fact) {
         try {
-            var textNodeStart = document.getElementByXPath(firstTextNodeXPath);
-            var textNodeEnd = document.getElementByXPath(lastTextNodeXPath);
+            var textNodeStart = document.getElementByXPath(fact.startNodeXPath);
+            var textNodeEnd = document.getElementByXPath(fact.endNodeXPath);
             var range = new Range();
-            range.setStart(textNodeStart, startOffset);
-            range.setEnd(textNodeEnd, endOffset);
+            range.setStart(textNodeStart, fact.startOffset);
+            range.setEnd(textNodeEnd, fact.endOffset);
             return range;
         }
         catch (error) {

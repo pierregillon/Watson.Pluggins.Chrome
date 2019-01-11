@@ -7,8 +7,8 @@ let source = document.getElementById('source');
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     var message = {type: "getNewSuspiciousFact"};
     chrome.tabs.sendMessage(tabs[0].id, message, function(selectedSuspiciousFact) {
-        if(selectedSuspiciousFact && selectedSuspiciousFact.Wording && selectedSuspiciousFact.Wording.length > 1) {
-            selectedText.innerText = selectedSuspiciousFact.Wording;
+        if(selectedSuspiciousFact && selectedSuspiciousFact.wording && selectedSuspiciousFact.wording.length > 1) {
+            selectedText.innerText = selectedSuspiciousFact.wording;
             fact.style.display = "visible";
             noTextSelected.style.display = 'none';
             source.innerText = "Source : " + tabs[0].url.middleTrim(40);
