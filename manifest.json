@@ -31,7 +31,9 @@
             "matches": [
                 "<all_urls>"
             ],
-            "css": [],
+            "css": [
+                "./browser/css/global.css"
+            ],
             "js": [
                 "./browser/js/xpath.js",
                 "./browser/js/Fact.js",

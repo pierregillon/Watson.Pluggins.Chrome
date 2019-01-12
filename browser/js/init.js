@@ -43,7 +43,7 @@
     function highlight(range, color) {
         var span = document.createElement('SPAN');
         span.appendChild(range.extractContents());
-        span.style.background = color;
+        span.className = "highlight";
         range.insertNode(span);
     }
 })();

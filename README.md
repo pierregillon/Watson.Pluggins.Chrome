@@ -19,7 +19,5 @@ All features are in progress. No version is available yet. Subscribe to this rep
 
 # todo list
 - Display backend errors
-- Update highlight style
-- Update popup template
 - Check existing fact at same location in document (Xmap) to be sure there is no conflict
 - use web pack
