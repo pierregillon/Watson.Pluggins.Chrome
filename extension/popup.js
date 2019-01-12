@@ -1,3 +1,5 @@
+var repository = new FactRepository(new HttpClient("http://localhost:5000"));
+
 let saveFakeNews = document.getElementById('saveFakeNews');
 let noTextSelected = document.getElementById('noTextSelected');
 let selectedText = document.getElementById('selectedText');
@@ -5,31 +7,58 @@ let fact = document.getElementById('fact');
 let source = document.getElementById('source');
 
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    var message = {type: "getNewSuspiciousFact"};
-    chrome.tabs.sendMessage(tabs[0].id, message, function(selectedSuspiciousFact) {
-        if(selectedSuspiciousFact && selectedSuspiciousFact.wording && selectedSuspiciousFact.wording.length > 1) {
-            selectedText.innerText = selectedSuspiciousFact.wording;
-            fact.style.display = "visible";
-            noTextSelected.style.display = 'none';
-            source.innerText = "Source : " + tabs[0].url.middleTrim(40);
-            
-            saveFakeNews.disabled = false;
-            saveFakeNews.onclick = function() {
-                chrome.runtime.sendMessage({
-                    type: "reportNewSuspiciousFact",
-                    newSuspiciousFact: selectedSuspiciousFact
-                });
-            };
+    chrome.tabs.sendMessage(tabs[0].id, {type: "getNewSuspiciousFact"}, function(newSuspiciousFact) {
+        if (newSuspiciousFact && newSuspiciousFact.wording && newSuspiciousFact.wording.length > 1) {
+            showSuspiciousFact(newSuspiciousFact.wording, tabs[0].url);
+            subscribeToClick(tabs[0], newSuspiciousFact);
         }
         else {
-            fact.style.display = "none";
-            noTextSelected.style.display = 'visible';
-            saveFakeNews.disabled = true;
+            showNoSelectionInformation();
         }
     });
 });
 
 // ----- Utils
+function showSuspiciousFact(wording, url) {
+    selectedText.innerText = wording;
+    fact.style.display = "visible";
+    noTextSelected.style.display = 'none';
+    source.innerText = "Source : " + url.middleTrim(40);
+    saveFakeNews.disabled = false;
+}
+
+function showNoSelectionInformation() {
+    fact.style.display = "none";
+    noTextSelected.style.display = 'visible';
+    saveFakeNews.disabled = true;
+}
+
+function subscribeToClick(tab, newSuspiciousFact) {
+    saveFakeNews.onclick = () => {
+        repository.report(tab.url, newSuspiciousFact).then(() => {
+            chrome.tabs.sendMessage(tab.id, {
+                type: "suspiciousFactsLoaded",
+                suspiciousFacts: [toReadModel(newSuspiciousFact)]
+            });
+            chrome.browserAction.getBadgeText({tabId: tab.id}, text => {
+                chrome.browserAction.setBadgeText({
+                    text: (parseInt(text) + 1).toString(),
+                    tabId: tab.id
+                });
+            });
+        });
+    };
+}
+
+function toReadModel(self) {
+    return {
+        wording: self.wording,
+        startNodeXPath: self.startNodeXPath,
+        endNodeXPath: self.endNodeXPath,
+        startOffset: self.startOffset,
+        endOffset: self.endOffset
+    };
+}
 
 Object.defineProperty(String.prototype, "middleTrim", {
     value: function middleTrim(maxCharacterCount) {

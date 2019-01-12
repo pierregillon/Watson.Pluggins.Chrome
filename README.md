@@ -18,7 +18,6 @@ All features are in progress. No version is available yet. Subscribe to this rep
 * Visualize with a table base view the facts of the present web document
 
 # todo list
-- Direct call to api from popup
 - Display backend errors
 - Update highlight style
 - Update popup template
