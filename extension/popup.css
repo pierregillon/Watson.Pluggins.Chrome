@@ -1,0 +1,18 @@
+body {
+    width: 300px;
+}
+h1 img {
+  vertical-align: middle;
+}
+button {
+  padding: 10px;
+  left:40%;
+  right:40%;
+}
+.quote {
+  font-size: 18px;
+  font-style: italic;
+}
+#source {
+  text-align: right;
+}
