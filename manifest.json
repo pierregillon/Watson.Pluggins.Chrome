@@ -40,5 +40,8 @@
                 "./browser/js/init.js"
             ]
         }
+    ],
+    "web_accessible_resources": [
+        "extension/images/*.png"
     ]
 }
