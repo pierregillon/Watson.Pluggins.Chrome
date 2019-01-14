@@ -6,7 +6,6 @@ function HttpClient(server) {
             var client = new XMLHttpRequest();
             client.open("GET", server + url);
             client.setRequestHeader("Content-Type", "text/json");
-            client.send();
             client.onload = function () {
                 if (client.status == 200) {
                     resolve(JSON.parse(client.responseText));
@@ -15,7 +14,14 @@ function HttpClient(server) {
                     reject(client.status + " : " + client.responseText);
                 }
             }
-            });
+            client.onerror = function(error) {
+                reject(error);
+            };
+            client.onabort = function(error) {
+                reject(error);
+            };
+            client.send();
+        });
     }
 
     self.POST = function (url, body) {
@@ -27,7 +33,6 @@ function HttpClient(server) {
 
             var client = new XMLHttpRequest();
             client.open("POST", server + url);
-            client.send(data);
             client.onload = function () {
                 if (client.status == 200) {
                     resolve();
@@ -36,6 +41,13 @@ function HttpClient(server) {
                     reject(client.status + " : " + client.responseText);
                 }
             }
+            client.onerror = function(error) {
+                reject(error);
+            };
+            client.onabort = function(error) {
+                reject(error);
+            };
+            client.send(data);
         });
     }
 }
