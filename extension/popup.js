@@ -50,6 +50,8 @@ function subscribeToClick(tab, newSuspiciousFact) {
                         tabId: tab.id
                     });
                 });
+                let sucessElement = document.getElementById('success');
+                sucessElement.innerText = "The suspicious fact has correctly been reported to the community.";
             }).catch(function(error) {
                 let errorElement = document.getElementById('error');
                 errorElement.innerText = error.message;
