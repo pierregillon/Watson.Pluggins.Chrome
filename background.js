@@ -25,20 +25,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     }
 });
 
-chrome.runtime.onMessage.addListener(function(message, sender, reply) {
-    chrome.tabs.query({active: true}, tabs => {
-        if(message.type == "reportNewSuspiciousFact") {
-            repository.report(tabs[0].url, message.newSuspiciousFact).then(() => {
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    type: "suspiciousFactsLoaded",
-                    suspiciousFacts: [toReadModel(message.newSuspiciousFact)]
-                });
-            });
-        }
-        reply();
-    });
-});
-
 function updateBadge(tabId, count) {
     chrome.browserAction.setBadgeText({
         text: count.toString(),
