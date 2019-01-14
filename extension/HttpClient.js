@@ -11,7 +11,7 @@ function HttpClient(server) {
                     resolve(JSON.parse(client.responseText));
                 }
                 else {
-                    reject(client.status + " : " + client.responseText);
+                    reject(JSON.parse(client.responseText));
                 }
             }
             client.onerror = function(error) {
@@ -38,7 +38,7 @@ function HttpClient(server) {
                     resolve();
                 }
                 else {
-                    reject(client.status + " : " + client.responseText);
+                    reject(JSON.parse(client.responseText));
                 }
             }
             client.onerror = function(error) {

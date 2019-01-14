@@ -1,10 +1,12 @@
 var repository = new FactRepository(new HttpClient("http://localhost:5000"));
 
-let saveFakeNews = document.getElementById('saveFakeNews');
+let reportFactButton = document.getElementById('saveFakeNews');
 let noTextSelected = document.getElementById('noTextSelected');
 let selectedText = document.getElementById('selectedText');
 let fact = document.getElementById('fact');
 let source = document.getElementById('source');
+
+let reportButtonOriginalText = reportFactButton.textContent;
 
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {type: "getNewSuspiciousFact"}, function(newSuspiciousFact) {
@@ -24,30 +26,45 @@ function showSuspiciousFact(wording, url) {
     fact.style.display = "visible";
     noTextSelected.style.display = 'none';
     source.innerText = "Source : " + url.middleTrim(40);
-    saveFakeNews.disabled = false;
+    reportFactButton.disabled = false;
 }
 
 function showNoSelectionInformation() {
     fact.style.display = "none";
     noTextSelected.style.display = 'visible';
-    saveFakeNews.disabled = true;
+    reportFactButton.disabled = true;
 }
 
 function subscribeToClick(tab, newSuspiciousFact) {
-    saveFakeNews.onclick = () => {
-        repository.report(tab.url, newSuspiciousFact).then(() => {
-            chrome.tabs.sendMessage(tab.id, {
-                type: "suspiciousFactsLoaded",
-                suspiciousFacts: [toReadModel(newSuspiciousFact)]
-            });
-            chrome.browserAction.getBadgeText({tabId: tab.id}, text => {
-                chrome.browserAction.setBadgeText({
-                    text: (parseInt(text) + 1).toString(),
-                    tabId: tab.id
+    reportFactButton.onclick = () => {
+        disableReportButton();
+        repository.report(tab.url, newSuspiciousFact)
+            .then(() => {
+                chrome.tabs.sendMessage(tab.id, {
+                    type: "suspiciousFactsLoaded",
+                    suspiciousFacts: [toReadModel(newSuspiciousFact)]
                 });
-            });
-        });
+                chrome.browserAction.getBadgeText({tabId: tab.id}, text => {
+                    chrome.browserAction.setBadgeText({
+                        text: (parseInt(text) + 1).toString(),
+                        tabId: tab.id
+                    });
+                });
+            }).catch(function(error) {
+                let errorElement = document.getElementById('error');
+                errorElement.innerText = error.message;
+            }).then(enableReportButton, enableReportButton);
     };
+}
+
+function disableReportButton() {
+    reportFactButton.textContent = "...";
+    reportFactButton.disabled = true;
+}
+
+function enableReportButton() {
+    reportFactButton.textContent = reportButtonOriginalText;
+    reportFactButton.disabled = false;
 }
 
 function toReadModel(self) {
