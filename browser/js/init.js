@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    const overlay = new Overlay();
+    const suspiciousFactClassNames = "watson fact suspicious";
+    const suspiciousFactOverlayClassNames = "watson fact overlay";
+
     chrome.runtime.onMessage.addListener(function (msg, _, sendResponse) {
         if(msg.type == "suspiciousFactsLoaded") {
             msg.suspiciousFacts.forEach(fact => {
@@ -30,7 +34,7 @@
     // ----- Functions
 
     function rangeIntersectsExistingFact(range) {
-        var elements = document.getElementsByClassName("highlight");
+        var elements = document.getElementsByClassName(suspiciousFactClassNames);
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
             if (range.intersectsNode(element)) {
@@ -56,8 +60,6 @@
 
     // ----- Overlay
 
-    var overlay = new Overlay();
-
     function highlight(range) {
         var element = createHighlight();
         range.surroundContents(element);
@@ -65,7 +67,7 @@
 
     function createHighlight() {
         var element = document.createElement('SPAN');
-        element.className = "highlight";
+        element.className = suspiciousFactClassNames;
         element.onmouseenter = mouseEnterFact;
         element.onmouseleave = mouseLeaveFact;
         element.onmousemove = mouseMoveOnFact;
@@ -112,7 +114,7 @@
             var overlay = document.createElement('SPAN');
             var imageUrl = chrome.runtime.getURL('extension/images/icon-detective16.png');
             overlay.innerHTML = "<img src=\"" + imageUrl + "\"> This fact has been reported as <strong>suspicious</strong> by a user.";
-            overlay.className = "info-overlay";
+            overlay.className = suspiciousFactOverlayClassNames;
             return overlay;        
         }
     }
