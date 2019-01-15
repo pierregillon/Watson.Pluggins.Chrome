@@ -52,10 +52,13 @@ function subscribeToClick(tab, newSuspiciousFact) {
                 });
                 let sucessElement = document.getElementById('success');
                 sucessElement.innerText = "The suspicious fact has correctly been reported to the community.";
+                reportFactButton.textContent = reportButtonOriginalText;
+                reportFactButton.disabled = true;
             }).catch(function(error) {
                 let errorElement = document.getElementById('error');
                 errorElement.innerText = error.message;
-            }).then(enableReportButton, enableReportButton);
+                enableReportButton();
+            });
     };
 }
 
