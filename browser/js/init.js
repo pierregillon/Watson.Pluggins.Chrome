@@ -13,10 +13,13 @@
         }
         else if (msg.type == "getNewSuspiciousFact") {
             var selection = document.getSelection();
-            if (selection) {
+            if (selection && selection.rangeCount > 0) {
                 var range = selection.getRangeAt(0);
                 if (range) {
-                    sendResponse(new Fact(range));
+                    sendResponse({
+                        fact: new Fact(range),
+                        conflict: rangeIntersectsExistingFact(range)
+                    });
                     return;
                 }
             }
@@ -25,6 +28,17 @@
     });
 
     // ----- Functions
+
+    function rangeIntersectsExistingFact(range) {
+        var elements = document.getElementsByClassName("highlight");
+        for (let i = 0; i < elements.length; i++) {
+            const element = elements[i];
+            if (range.intersectsNode(element)) {
+                return true;;
+            }
+        }
+        return false;
+    }
 
     function createTextRange(fact) {
         try {
@@ -46,8 +60,7 @@
 
     function highlight(range) {
         var element = createHighlight();
-        element.appendChild(range.extractContents());
-        range.insertNode(element);
+        range.surroundContents(element);
     }
 
     function createHighlight() {

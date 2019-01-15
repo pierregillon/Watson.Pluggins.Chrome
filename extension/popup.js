@@ -9,10 +9,15 @@ let source = document.getElementById('source');
 let reportButtonOriginalText = reportFactButton.textContent;
 
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {type: "getNewSuspiciousFact"}, function(newSuspiciousFact) {
+    chrome.tabs.sendMessage(tabs[0].id, {type: "getNewSuspiciousFact"}, function(message) {
+        var newSuspiciousFact = message.fact;
         if (newSuspiciousFact && newSuspiciousFact.wording && newSuspiciousFact.wording.length > 1) {
             showSuspiciousFact(newSuspiciousFact.wording, tabs[0].url);
             subscribeToClick(tabs[0], newSuspiciousFact);
+            if (message.conflict) {
+                document.getElementById("error").innerText = "Your selection contains fact already reported. Please adjust you selection to new fact.";
+                reportFactButton.disabled = true;
+            }
         }
         else {
             showNoSelectionInformation();
