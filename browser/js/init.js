@@ -61,8 +61,13 @@
     // ----- Overlay
 
     function highlight(range) {
-        var element = createHighlight();
-        range.surroundContents(element);
+        try {
+            var element = createHighlight();
+            range.surroundContents(element);
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
 
     function createHighlight() {
