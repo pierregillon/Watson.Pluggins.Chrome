@@ -1,4 +1,6 @@
-var repository = new FactRepository(new HttpClient("http://localhost:5000"));
+var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
+var renewClient = new RenewTokenHttpClient(client, chrome.storage.sync);
+var repository = new FactRepository(renewClient);   
 
 let reportFactButton = document.getElementById('saveFakeNews');
 let noTextSelected = document.getElementById('noTextSelected');
@@ -55,8 +57,8 @@ function subscribeToClick(tab, newSuspiciousFact) {
                         tabId: tab.id
                     });
                 });
-                let sucessElement = document.getElementById('success');
-                sucessElement.innerText = "The suspicious fact has correctly been reported to the community.";
+                let successElement = document.getElementById('success');
+                successElement.innerText = "The suspicious fact has correctly been reported to the community.";
                 reportFactButton.textContent = reportButtonOriginalText;
                 reportFactButton.disabled = true;
             }).catch(function(error) {

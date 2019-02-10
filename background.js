@@ -1,4 +1,16 @@
-var repository = new FactRepository(new HttpClient("http://localhost:5000"));
+var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
+var renewClient = new RenewTokenHttpClient(client, chrome.storage.sync);
+var repository = new FactRepository(renewClient);
+
+chrome.runtime.onInstalled.addListener(function() {
+    var userId = uuidv4();
+    client.POST("/api/register", { userId: userId }).then(function(result) {
+        chrome.storage.sync.set({
+            userId: userId,
+            token: result.token
+        });
+    });
+});
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.status == "loading") {
@@ -71,4 +83,10 @@ function getDomain(url) {
     else {
         return hostParts[0].toLowerCase();
     }
+}
+
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
 }
