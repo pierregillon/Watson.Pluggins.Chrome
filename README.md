@@ -25,3 +25,4 @@ All features are in progress. No version is available yet. Subscribe to this rep
 - Check wording with highlighted fact
 - Check existing fact at same location in document (Xmap) to be sure there is no conflict
 - use web pack
+- translate plugin with i18n (fr, en)
