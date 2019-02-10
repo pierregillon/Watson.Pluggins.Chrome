@@ -6,28 +6,7 @@ function HttpClient(server, storage) {
             storage.get("token", function(result) {
                 var client = new XMLHttpRequest();
                 client.open("GET", server + url);
-                client.setRequestHeader("Content-Type", "text/json");
-                client.setRequestHeader("Authorization", result.token);
-                client.onload = function () {
-                    var result = {
-                        statusCode: client.status
-                    };
-                    if (client.responseText) {
-                        result = JSON.parse(client.responseText);
-                    }
-                    if (client.status == 200) {
-                        resolve(result);
-                    }
-                    else {
-                        reject(result);
-                    }
-                }
-                client.onerror = function(error) {
-                    reject(error);
-                };
-                client.onabort = function(error) {
-                    reject(error);
-                };
+                configureClient(client, result.token, resolve, reject);
                 client.send();
             });
         });
@@ -40,33 +19,43 @@ function HttpClient(server, storage) {
                 for (var key in body) {
                     data.append(key, body[key]);
                 }
-
                 var client = new XMLHttpRequest();
                 client.open("POST", server + url);
-                client.setRequestHeader("Authorization", result.token);
-                client.onload = function () {
-                    var result = {
-                        statusCode: client.status
-                    };
-                    if (client.responseText) {
-                        result = JSON.parse(client.responseText);
-                    }
-                    if (client.status == 200) {
-                        resolve(result);
-                    }
-                    else {
-                        reject(result);
-                    }
-                }
-                client.onerror = function(error) {
-                    reject(error);
-                };
-                client.onabort = function(error) {
-                    reject(error);
-                };
+                configureClient(client, result.token, resolve, reject);
                 client.send(data);
             });
         });
+    }
+
+    function configureClient(client, token, resolve, reject) {
+        client.setRequestHeader("Content-Type", "text/json");
+        client.setRequestHeader("Authorization", token);
+        client.onload = function () {
+            var result = {
+                statusCode: client.status
+            };
+            if (client.responseText) {
+                result = JSON.parse(client.responseText);
+            }
+            if (client.status == 200) {
+                resolve(result);
+            }
+            else {
+                reject(result);
+            }
+        }
+        client.onerror = function(error) {
+            reject({
+                statusCode: -1,
+                message: "The Watson server is unreachable. Please retry in few moment."
+            });
+        };
+        client.onabort = function(error) {
+            reject({
+                statusCode: -2,
+                message: "The operation has been cancelled."
+            });
+        };
     }
 }
 
