@@ -1,9 +1,9 @@
-function HttpClient(server, storage) {
+function HttpClient(server, settings) {
     var self = this;
 
     self.GET = function (url) {
         return new Promise(function (resolve, reject) {
-            storage.get("token", function (result) {
+            settings.get("token", function (result) {
                 try {
                     checkTokenStillValid(result.token);
                     var client = new XMLHttpRequest();
@@ -20,7 +20,7 @@ function HttpClient(server, storage) {
 
     self.POST = function (url, body) {
         return new Promise(function (resolve, reject) {
-            storage.get("token", function (result) {
+            settings.get("token", function (result) {
                 try {
                     checkTokenStillValid(result.token);
                     var client = new XMLHttpRequest();
@@ -80,50 +80,5 @@ function HttpClient(server, storage) {
                 message: "The operation has been cancelled."
             });
         };
-    }
-}
-
-function RenewTokenHttpClient(client, storage) {
-    var self = this;
-
-    self.GET = function(url) {
-        return client.GET(url).catch(function(error) {
-            if (error.statusCode != 401) {
-                throw error;
-            }
-            return renewToken().then(function(){
-                return client.GET(url);
-            });
-        });
-    };
-
-    self.POST = function(url, body) {
-        return client.POST(url, body).catch(function(error) {
-            if (error.statusCode != 401) {
-                throw error;
-            }
-            return renewToken().then(function() {
-                return client.POST(url, body);
-            });
-        });
-    };
-
-    function renewToken() {
-        return new Promise(function(resolve, reject) {
-            storage.set({ token: null }, function() {
-                storage.get(["userId"], function(result) {
-                    return client.POST("/api/login", { userId: result.userId }).then(function(data) {
-                        storage.set({
-                            token: {
-                                value: data.token, 
-                                expire: data.expire
-                            }
-                        }, function() {
-                            resolve();
-                        });
-                    });
-                });
-            });
-        });
     }
 }

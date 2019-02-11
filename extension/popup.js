@@ -1,6 +1,7 @@
 var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
-var renewClient = new RenewTokenHttpClient(client, chrome.storage.sync);
-var repository = new FactRepository(renewClient);   
+var authenticationService = new AuthenticationService(client, chrome.storage.sync);
+var renewClient = new RenewTokenHttpClient(client, chrome.storage.sync, authenticationService);
+var factRepository = new FactRepository(renewClient);
 
 let reportFactButton = document.getElementById('saveFakeNews');
 let noTextSelected = document.getElementById('noTextSelected');
@@ -45,7 +46,7 @@ function showNoSelectionInformation() {
 function subscribeToClick(tab, newSuspiciousFact) {
     reportFactButton.onclick = () => {
         disableReportButton();
-        repository.report(tab.url, newSuspiciousFact)
+        factRepository.report(tab.url, newSuspiciousFact)
             .then(() => {
                 chrome.tabs.sendMessage(tab.id, {
                     type: "suspiciousFactsLoaded",
