@@ -4,12 +4,19 @@ var repository = new FactRepository(renewClient);
 
 chrome.runtime.onInstalled.addListener(function() {
     var userId = uuidv4();
-    client.POST("/api/register", { userId: userId }).then(function(result) {
-        chrome.storage.sync.set({
-            userId: userId,
-            token: result.token
+    client.POST("/api/register", { userId: userId })
+        .then(function (data) {
+            chrome.storage.sync.set({
+                userId: userId,
+                token: {
+                    value: data.token,
+                    expire: data.expire
+                }
+            });
+        }).catch(function (error) {
+            console.error(error);
+            disableExtension();
         });
-    });
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {

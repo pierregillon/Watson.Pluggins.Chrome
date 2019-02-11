@@ -2,34 +2,58 @@ function HttpClient(server, storage) {
     var self = this;
 
     self.GET = function (url) {
-        return new Promise(function(resolve, reject) {
-            storage.get("token", function(result) {
-                var client = new XMLHttpRequest();
-                client.open("GET", server + url);
-                configureClient(client, result.token, resolve, reject);
-                client.send();
+        return new Promise(function (resolve, reject) {
+            storage.get("token", function (result) {
+                try {
+                    checkTokenStillValid(result.token);
+                    var client = new XMLHttpRequest();
+                    client.open("GET", server + url);
+                    client.setRequestHeader("Content-Type", "text/json");
+                    configureClient(client, result.token, resolve, reject);
+                    client.send();
+                } catch (error) {
+                    reject(error);
+                }
             });
         });
     }
 
     self.POST = function (url, body) {
-        return new Promise(function(resolve, reject) {
-            storage.get("token", function(result) {
-                var data = new FormData();
-                for (var key in body) {
-                    data.append(key, body[key]);
+        return new Promise(function (resolve, reject) {
+            storage.get("token", function (result) {
+                try {
+                    checkTokenStillValid(result.token);
+                    var client = new XMLHttpRequest();
+                    client.open("POST", server + url);
+                    configureClient(client, result.token, resolve, reject);
+                    client.send(buildFormData(body));
+                } catch (error) {
+                    reject(error);
                 }
-                var client = new XMLHttpRequest();
-                client.open("POST", server + url);
-                configureClient(client, result.token, resolve, reject);
-                client.send(data);
             });
         });
     }
 
+    function checkTokenStillValid(token) {
+        if(token && token.expire) {
+            if (new Date(token.expire) < new Date()) {
+                throw {statusCode: 401};
+            }
+        }
+    }
+
+    function buildFormData(body) {
+        var data = new FormData();
+        for (var key in body) {
+            data.append(key, body[key]);
+        }
+        return data;
+    }
+
     function configureClient(client, token, resolve, reject) {
-        client.setRequestHeader("Content-Type", "text/json");
-        client.setRequestHeader("Authorization", token);
+        if (token) {
+            client.setRequestHeader("Authorization", token.value);
+        }
         client.onload = function () {
             var result = {
                 statusCode: client.status
@@ -47,7 +71,7 @@ function HttpClient(server, storage) {
         client.onerror = function(error) {
             reject({
                 statusCode: -1,
-                message: "The Watson server is unreachable. Please retry in few moment."
+                message: "The Watson server is unreachable. Please retry in a few moment."
             });
         };
         client.onabort = function(error) {
@@ -86,10 +110,17 @@ function RenewTokenHttpClient(client, storage) {
 
     function renewToken() {
         return new Promise(function(resolve, reject) {
-            storage.get(["userId"], function(result) {
-                return client.POST("/api/login", { userId: result.userId }).then(function(data) {
-                    storage.set({token: data.token}, function() {
-                        resolve();
+            storage.set({ token: null }, function() {
+                storage.get(["userId"], function(result) {
+                    return client.POST("/api/login", { userId: result.userId }).then(function(data) {
+                        storage.set({
+                            token: {
+                                value: data.token, 
+                                expire: data.expire
+                            }
+                        }, function() {
+                            resolve();
+                        });
                     });
                 });
             });
