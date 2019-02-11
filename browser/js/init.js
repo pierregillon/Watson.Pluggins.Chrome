@@ -7,11 +7,15 @@
 
     chrome.runtime.onMessage.addListener(function (msg, _, sendResponse) {
         if(msg.type == "suspiciousFactsLoaded") {
+            var ranges = [];
             msg.suspiciousFacts.forEach(fact => {
                 var textRange = createTextRange(fact);
                 if (textRange) {
-                    highlight(textRange);
+                    ranges.push(textRange);
                 }
+            });
+            ranges.forEach(range => {
+                highlight(range);
             });
             sendResponse();
         }
@@ -63,7 +67,9 @@
     function highlight(range) {
         try {
             var element = createHighlight();
-            range.surroundContents(element);
+            var extract = range.extractContents();
+            element.appendChild(extract);
+            range.insertNode(element);
         }
         catch (error) {
             console.error(error);
