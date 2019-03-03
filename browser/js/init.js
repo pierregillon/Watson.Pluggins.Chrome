@@ -54,7 +54,14 @@
         facts.forEach(fact => {
             var textRange = createTextRange(fact);
             if (textRange) {
-                ranges.push(textRange);
+                var nodeClone = textRange.cloneContents();
+                var currentWording = nodeClone.textContent.toWording();
+                if (fact.wording === currentWording) {
+                    ranges.push(textRange);
+                }
+                else {
+                    console.warn("Suspicious fact wording changed. Ignored.")
+                }
             }
         });
         ranges.forEach(range => {

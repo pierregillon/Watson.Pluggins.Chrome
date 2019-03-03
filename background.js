@@ -62,6 +62,14 @@ function disableExtension(tabId) {
 }
 
 function isUrlAccepted(url) {
+    return isHttpRequest(url) && hasValidDomain(url);
+}
+
+function isHttpRequest(url) {
+    return url.startsWith("http");
+}
+
+function hasValidDomain(url) {
     var domain = getDomain(url);
     switch (domain) {
         case undefined:
