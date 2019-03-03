@@ -76,11 +76,11 @@
             return range;
         }
         catch (error) {
-            if (error && error.name === "TypeError") {
+            if (error && (error.name === "TypeError" || error.name == "IndexSizeError")) {
                 console.warn("Failed to display suspicious fact text range from xpath.");
             }
             else {
-                console.warn("Failed to display suspicious fact text rangez from xpath. " + error);
+                console.warn("Failed to display suspicious fact text range from xpath. " + error);
             }
             return undefined;
         }
