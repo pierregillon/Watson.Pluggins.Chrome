@@ -21,6 +21,5 @@ All features are in progress. No version is available yet. Subscribe to this rep
 * Cache domains that already contains at least one suspicious fact in its web pages, in order to avoid http web requests to Watson Api for every pages browsed by any users.
 
 # todo list
-- Disable extension on ftp / local files.
 - use web pack
 - translate plugin with i18n (fr, en)
