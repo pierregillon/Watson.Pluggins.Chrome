@@ -18,10 +18,6 @@ All features are in progress. No version is available yet. Subscribe to this rep
 * Visualize with a table base view the facts of the present web document
 
 # todo list
-- Display backend errors
-- Empty wording from bad characters and multiple spaces
 - Disable extension on ftp / local files.
-- Check wording with highlighted fact
-- Check existing fact at same location in document (Xmap) to be sure there is no conflict
 - use web pack
 - translate plugin with i18n (fr, en)
