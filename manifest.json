@@ -38,6 +38,7 @@
             ],
             "js": [
                 "./browser/js/xpath.js",
+                "./browser/js/stringExtensions.js",
                 "./browser/js/Fact.js",
                 "./browser/js/init.js"
             ]

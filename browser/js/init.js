@@ -55,11 +55,7 @@
             var textRange = createTextRange(fact);
             if (textRange) {
                 var nodeClone = textRange.cloneContents();
-                var currentWording = nodeClone.textContent
-                    .split(/\r\n|\r|\n|\ /g)
-                    .filter(function (str) { return str.length != 0; })
-                    .join(" ");
-
+                var currentWording = nodeClone.textContent.toWording();
                 if (fact.wording === currentWording) {
                     ranges.push(textRange);
                 }
