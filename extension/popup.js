@@ -1,4 +1,7 @@
-var repository = new FactRepository(new HttpClient("http://localhost:5000"));
+var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
+var authenticationService = new AuthenticationService(client, chrome.storage.sync);
+var renewClient = new RenewTokenHttpClient(client, chrome.storage.sync, authenticationService);
+var factRepository = new FactRepository(renewClient);
 
 let reportFactButton = document.getElementById('saveFakeNews');
 let noTextSelected = document.getElementById('noTextSelected');
@@ -43,7 +46,7 @@ function showNoSelectionInformation() {
 function subscribeToClick(tab, newSuspiciousFact) {
     reportFactButton.onclick = () => {
         disableReportButton();
-        repository.report(tab.url, newSuspiciousFact)
+        factRepository.report(tab.url, newSuspiciousFact)
             .then(() => {
                 chrome.tabs.sendMessage(tab.id, {
                     type: "suspiciousFactsLoaded",
@@ -55,8 +58,8 @@ function subscribeToClick(tab, newSuspiciousFact) {
                         tabId: tab.id
                     });
                 });
-                let sucessElement = document.getElementById('success');
-                sucessElement.innerText = "The suspicious fact has correctly been reported to the community.";
+                let successElement = document.getElementById('success');
+                successElement.innerText = "The suspicious fact has correctly been reported to the community.";
                 reportFactButton.textContent = reportButtonOriginalText;
                 reportFactButton.disabled = true;
             }).catch(function(error) {

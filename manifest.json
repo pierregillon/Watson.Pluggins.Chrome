@@ -16,7 +16,9 @@
     "background": {
         "scripts": [
             "./extension/HttpClient.js",
+            "./extension/RenewTokenHttpClient.js",
             "./extension/FactRepository.js",
+            "./extension/AuthenticationService.js",
             "./background.js"
         ],
         "persistent": false

@@ -1,4 +1,19 @@
-var repository = new FactRepository(new HttpClient("http://localhost:5000"));
+var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
+var authenticationService = new AuthenticationService(client, chrome.storage.sync);
+var renewClient = new RenewTokenHttpClient(client, chrome.storage.sync, authenticationService);
+var factRepository = new FactRepository(renewClient);
+
+chrome.runtime.onInstalled.addListener(function() {
+    chrome.storage.sync.get(["userId"], function(result) {
+        if (!result.userId) {
+            authenticationService.register({ userId: uuidv4() })
+                .catch(function (error) {
+                    console.error(error);
+                    disableExtension();
+                });
+        }
+    })
+});
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.status == "loading") {
@@ -11,7 +26,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     }
     else if (changeInfo.status == "complete") {
         if (isUrlAccepted(tab.url)) {
-            repository.getSuspiciousFacts(tab.url)
+            factRepository.getSuspiciousFacts(tab.url)
                 .then(suspiciousFacts => {
                     updateBadge(tabId, suspiciousFacts.length);
                     chrome.tabs.sendMessage(tabId, {
@@ -71,4 +86,10 @@ function getDomain(url) {
     else {
         return hostParts[0].toLowerCase();
     }
+}
+
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
 }
