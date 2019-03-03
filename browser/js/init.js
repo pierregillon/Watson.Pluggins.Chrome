@@ -63,6 +63,10 @@
     }
 
     function createTextRange(fact) {
+        return createTextRangeFromXPath(fact) || createTextRangeFromTextSearch(fact);
+    }
+
+    function createTextRangeFromXPath(fact) {
         try {
             var textNodeStart = document.getElementByXPath(fact.startNodeXPath);
             var textNodeEnd = document.getElementByXPath(fact.endNodeXPath);
@@ -72,16 +76,34 @@
             return range;
         }
         catch (error) {
-            console.error(error);
+            if (error && error.name === "TypeError") {
+                console.warn("Failed to display suspicious fact text range from xpath.");
+            }
+            else {
+                console.warn("Failed to display suspicious fact text rangez from xpath. " + error);
+            }
+            return undefined;
+        }
+    }
+
+    function createTextRangeFromTextSearch(fact) {
+        if (window.find(fact.wording)) {
+            var textRange = document.getSelection().getRangeAt(0).cloneRange();
+            document.getSelection().removeAllRanges();
+            return textRange;
+        }
+        else {
+            console.warn("Failed to display suspicious fact text range from wording search :  " + fact.wording);
+            return undefined;
         }
     }
 
     function highlightTextRange(range) {
         try {
-            // var element = createHighlightElement();
-            // var extract = range.extractContents();
-            // element.appendChild(extract);
-            // range.insertNode(element);
+            var element = createHighlightElement();
+            var extract = range.extractContents();
+            element.appendChild(extract);
+            range.insertNode(element);
         }
         catch (error) {
             console.error(error);
