@@ -6,34 +6,39 @@
     const suspiciousFactOverlayClassNames = "watson fact overlay";
 
     chrome.runtime.onMessage.addListener(function (msg, _, sendResponse) {
-        if(msg.type == "suspiciousFactsLoaded") {
-            msg.suspiciousFacts.forEach(fact => {
-                var textRange = createTextRange(fact);
-                if (textRange) {
-                    highlight(textRange);
-                }
-            });
+        if (msg.type == "suspiciousFactsLoaded") {
+            highlightFacts(msg.suspiciousFacts);
             sendResponse();
         }
         else if (msg.type == "getNewSuspiciousFact") {
-            var selection = document.getSelection();
-            if (selection && selection.rangeCount > 0) {
-                var range = selection.getRangeAt(0);
-                if (range) {
-                    sendResponse({
-                        fact: new Fact(range),
-                        conflict: rangeIntersectsExistingFact(range)
-                    });
-                    return;
-                }
-            }
-            sendResponse(undefined);
+            sendResponse(createNewFactFromSelectedTextRange());
         }
     });
 
     // ----- Functions
 
-    function rangeIntersectsExistingFact(range) {
+    function createNewFactFromSelectedTextRange() {
+        var textRange = getSelectedTextRange();
+        if (!textRange) {
+            return undefined;
+        }
+        else {
+            return {
+                fact: new Fact(textRange),
+                conflict: isTextRangeIntersectingExistingFact(textRange)
+            };
+        }
+    }
+
+    function getSelectedTextRange() {
+        var selection = document.getSelection();
+        if (selection && selection.rangeCount > 0) {
+            return selection.getRangeAt(0);
+        }
+        return undefined;
+    }
+
+    function isTextRangeIntersectingExistingFact(range) {
         var elements = document.getElementsByClassName(suspiciousFactClassNames);
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
@@ -44,7 +49,24 @@
         return false;
     }
 
+    function highlightFacts(facts) {
+        var ranges = [];
+        facts.forEach(fact => {
+            var textRange = createTextRange(fact);
+            if (textRange) {
+                ranges.push(textRange);
+            }
+        });
+        ranges.forEach(range => {
+            highlightTextRange(range);
+        });
+    }
+
     function createTextRange(fact) {
+        return createTextRangeFromXPath(fact) || createTextRangeFromTextSearch(fact);
+    }
+
+    function createTextRangeFromXPath(fact) {
         try {
             var textNodeStart = document.getElementByXPath(fact.startNodeXPath);
             var textNodeEnd = document.getElementByXPath(fact.endNodeXPath);
@@ -54,23 +76,41 @@
             return range;
         }
         catch (error) {
-            console.error(error);
+            if (error && (error.name === "TypeError" || error.name == "IndexSizeError")) {
+                console.warn("Failed to display suspicious fact text range from xpath.");
+            }
+            else {
+                console.warn("Failed to display suspicious fact text range from xpath. " + error);
+            }
+            return undefined;
         }
     }
 
-    // ----- Overlay
+    function createTextRangeFromTextSearch(fact) {
+        if (window.find(fact.wording)) {
+            var textRange = document.getSelection().getRangeAt(0).cloneRange();
+            document.getSelection().removeAllRanges();
+            return textRange;
+        }
+        else {
+            console.warn("Failed to display suspicious fact text range from wording search :  " + fact.wording);
+            return undefined;
+        }
+    }
 
-    function highlight(range) {
+    function highlightTextRange(range) {
         try {
-            var element = createHighlight();
-            range.surroundContents(element);
+            var element = createHighlightElement();
+            var extract = range.extractContents();
+            element.appendChild(extract);
+            range.insertNode(element);
         }
         catch (error) {
             console.error(error);
         }
     }
 
-    function createHighlight() {
+    function createHighlightElement() {
         var element = document.createElement('SPAN');
         element.className = suspiciousFactClassNames;
         element.onmouseenter = mouseEnterFact;
