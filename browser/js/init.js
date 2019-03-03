@@ -54,7 +54,18 @@
         facts.forEach(fact => {
             var textRange = createTextRange(fact);
             if (textRange) {
-                ranges.push(textRange);
+                var nodeClone = textRange.cloneContents();
+                var currentWording = nodeClone.textContent
+                    .split(/\r\n|\r|\n|\ /g)
+                    .filter(function (str) { return str.length != 0; })
+                    .join(" ");
+
+                if (fact.wording === currentWording) {
+                    ranges.push(textRange);
+                }
+                else {
+                    console.warn("Suspicious fact wording changed. Ignored.")
+                }
             }
         });
         ranges.forEach(range => {

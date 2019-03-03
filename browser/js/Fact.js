@@ -7,7 +7,7 @@ function Fact(range) {
     self.endOffset = range.endOffset;
     self.wording = range.cloneContents()
                         .textContent
-                        .split(/\r\n|\r|\n/g)
+                        .split(/\r\n|\r|\n|\ /g)
                         .filter(function (str) { return str.length != 0; })
                         .join(" ");
 }
