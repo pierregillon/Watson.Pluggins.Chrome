@@ -1,0 +1,25 @@
+{
+  "name": "watson.pluggins.chrome",
+  "version": "1.0.0",
+  "description": "This project is a chrome pluggin that uses Watson.Api to retrieve suspicious fact during web browsing.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pierregillon/Watson.Pluggins.Chrome.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pierregillon/Watson.Pluggins.Chrome/issues"
+  },
+  "homepage": "https://github.com/pierregillon/Watson.Pluggins.Chrome#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^1.0.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
+}
