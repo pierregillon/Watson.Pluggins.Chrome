@@ -40,7 +40,7 @@ function PopupController(factRepository, popupView) {
         chrome.browserAction.getBadgeText({tabId: tabId}, text => {
             chrome.browserAction.setBadgeText({
                 text: (parseInt(text) + 1).toString(),
-                tabId: tab.id
+                tabId: tabId
             });
         });
     }
