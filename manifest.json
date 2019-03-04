@@ -15,10 +15,10 @@
     ],
     "background": {
         "scripts": [
-            "./extension/HttpClient.js",
-            "./extension/RenewTokenHttpClient.js",
-            "./extension/FactRepository.js",
-            "./extension/AuthenticationService.js",
+            "./domain/HttpClient.js",
+            "./domain/RenewTokenHttpClient.js",
+            "./domain/FactRepository.js",
+            "./domain/AuthenticationService.js",
             "./background.js"
         ],
         "persistent": false
@@ -38,7 +38,7 @@
             ],
             "js": [
                 "./browser/js/xpath.js",
-                "./browser/js/stringExtensions.js",
+                "./domain/stringExtensions.js",
                 "./browser/js/Fact.js",
                 "./browser/js/init.js"
             ]
