@@ -23,3 +23,4 @@ All features are in progress. No version is available yet. Subscribe to this rep
 # todo list
 - use web pack
 - translate plugin with i18n (fr, en)
+- continuous integration with appveyor ?
