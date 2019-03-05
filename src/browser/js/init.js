@@ -1,9 +1,8 @@
-import extendDom from './xpath'
-import extend from '../../domain/stringExtensions'
-import Fact from './Fact'
+import extendDomWithXPath from './xpath'
+import extendStrings from '../../utils/stringExtensions'
 
-extendDom();
-extend();
+extendDomWithXPath();
+extendStrings();
 
 const overlay = new Overlay();
 const suspiciousFactClassNames = "watson fact suspicious";
@@ -28,7 +27,13 @@ function createNewFactFromSelectedTextRange() {
     }
     else {
         return {
-            fact: new Fact(textRange),
+            fact: {
+                startNodeXPath: textRange.startContainer.calculateXPath(),
+                endNodeXPath: textRange.endContainer.calculateXPath(),
+                startOffset: textRange.startOffset,
+                endOffset: textRange.endOffset,
+                wording: textRange.cloneContents().textContent.toWording()
+            },
             conflict: isTextRangeIntersectingExistingFact(textRange)
         };
     }

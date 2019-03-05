@@ -1,7 +1,7 @@
-import HttpClient from './domain/HttpClient'
-import AuthenticationService from './domain/AuthenticationService'
-import RenewTokenHttpClient from './domain/RenewTokenHttpClient'
-import FactRepository from './domain/FactRepository'
+import HttpClient from './network/httpClient'
+import RenewTokenHttpClient from './network/renewTokenHttpClient'
+import AuthenticationService from './api/authenticationService'
+import FactRepository from './api/factRepository'
 
 var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
 var authenticationService = new AuthenticationService(client, chrome.storage.sync);

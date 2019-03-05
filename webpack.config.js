@@ -7,17 +7,17 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: {
       contentScript: './src/browser/js/init.js',
-      popup: "./src/extension/popup.js",
+      popup: "./src/popup/popup.js",
       background: "./src/background.js"
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new CopyPlugin([
       { from: './src/manifest.json', to: './' },
-      { from: './src/extension/popup.html', to: './' },
-      { from: './src/extension/popup.css', to: './' },
+      { from: './src/popup/popup.html', to: './' },
+      { from: './src/popup/popup.css', to: './' },
       { from: './src/browser/css/global.css', to: './' },
-      { from: './src/extension/images', to: './images' },
+      { from: './src/images', to: './images' },
     ]),
   ],
   output: {
