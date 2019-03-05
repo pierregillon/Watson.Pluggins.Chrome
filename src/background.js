@@ -17,7 +17,7 @@ chrome.runtime.onInstalled.addListener(function() {
                     disableExtension();
                 });
         }
-    })
+    }) 
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {

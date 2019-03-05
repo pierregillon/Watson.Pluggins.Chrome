@@ -1,16 +1,21 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const ChromeExtensionReloader  = require('webpack-chrome-extension-reloader');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
   entry: {
       contentScript: './src/browser/js/init.js',
       popup: "./src/popup/popup.js",
       background: "./src/background.js"
   },
   plugins: [
+    new ChromeExtensionReloader({
+      entries: {
+        contentScript: ['contentScript', "popup"],
+        background: 'background'
+      }
+    }),
     new CleanWebpackPlugin(['dist']),
     new CopyPlugin([
       { from: './src/manifest.json', to: './' },
