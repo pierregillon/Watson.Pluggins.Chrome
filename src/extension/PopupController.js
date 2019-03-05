@@ -1,4 +1,4 @@
-function PopupController(factRepository, popupView) {
+export default function PopupController(factRepository, popupView) {
     var self = this;
 
     self.displaySuspiciousFact = function(context) {

@@ -1,3 +1,8 @@
+import HttpClient from './domain/HttpClient'
+import AuthenticationService from './domain/AuthenticationService'
+import RenewTokenHttpClient from './domain/RenewTokenHttpClient'
+import FactRepository from './domain/FactRepository'
+
 var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
 var authenticationService = new AuthenticationService(client, chrome.storage.sync);
 var renewClient = new RenewTokenHttpClient(client, chrome.storage.sync, authenticationService);
@@ -8,7 +13,7 @@ chrome.runtime.onInstalled.addListener(function() {
         if (!result.userId) {
             authenticationService.register({ userId: uuidv4() })
                 .catch(function (error) {
-                    console.error(error);
+                    console.error(error.message);
                     disableExtension();
                 });
         }
@@ -53,11 +58,11 @@ function updateBadge(tabId, count) {
 
 function enableExtension(tabId) {
     chrome.browserAction.enable(tabId);
-    chrome.browserAction.setIcon({tabId: tabId, path: "extension/images/icon-detective16.png"});
+    chrome.browserAction.setIcon({tabId: tabId, path: "./images/icon-detective16.png"});
 }
 
 function disableExtension(tabId) {
-    chrome.browserAction.setIcon({tabId: tabId, path: "extension/images/icon-detective16-disabled.png"});
+    chrome.browserAction.setIcon({tabId: tabId, path: "./images/icon-detective16-disabled.png"});
     chrome.browserAction.disable(tabId);
 }
 

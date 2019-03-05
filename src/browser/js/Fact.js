@@ -1,4 +1,4 @@
-function Fact(range) {
+export default function Fact(range) {
     var self = this;
 
     self.startNodeXPath = range.startContainer.calculateXPath();

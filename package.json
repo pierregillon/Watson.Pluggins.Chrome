@@ -19,6 +19,7 @@
   "homepage": "https://github.com/pierregillon/Watson.Pluggins.Chrome#readme",
   "devDependencies": {
     "clean-webpack-plugin": "^1.0.1",
+    "copy-webpack-plugin": "^5.0.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
   }

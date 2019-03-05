@@ -1,4 +1,4 @@
-function HttpClient(server, settings) {
+export default function HttpClient(server, settings) {
     var self = this;
 
     self.GET = function (url) {
