@@ -4,7 +4,7 @@
   "description": "This project is a chrome pluggin that uses Watson.Api to retrieve suspicious fact during web browsing.",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha ./src/**/*.spec.js --require ./node_modules/@babel/register",
     "build": "webpack --config webpack.config.js --mode=production",
     "start": "webpack --config webpack.config.js --mode=development --devtool=inline-source-map --watch"
   },
@@ -19,6 +19,10 @@
   },
   "homepage": "https://github.com/pierregillon/Watson.Pluggins.Chrome#readme",
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
+    "chai": "^4.2.0",
     "clean-webpack-plugin": "^1.0.1",
     "copy-webpack-plugin": "^5.0.0",
     "webpack": "^4.29.6",
