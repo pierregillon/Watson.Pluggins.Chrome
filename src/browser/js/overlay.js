@@ -1,4 +1,4 @@
-const suspiciousFactOverlayClassNames = "watson fact overlay";
+const suspiciousFactOverlayClassNames = "watson_fact_overlay";
 
 export default class Overlay {
     constructor(root) {

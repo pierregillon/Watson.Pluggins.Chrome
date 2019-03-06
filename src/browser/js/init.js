@@ -6,7 +6,7 @@ extendDomWithXPath();
 extendStrings();
 
 const overlay = new Overlay(document.body);
-const suspiciousFactClassNames = "watson fact suspicious";
+const suspiciousFactClassNames = "watson_fact_suspicious";
 
 chrome.runtime.onMessage.addListener(function (msg, _, sendResponse) {
     if (msg.type == "suspiciousFactsLoaded") {
