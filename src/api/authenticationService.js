@@ -1,4 +1,4 @@
-function AuthenticationService(httpClient, settings) {
+export default function AuthenticationService(httpClient, settings) {
     var self = this;
 
     self.register = function(credentials) {

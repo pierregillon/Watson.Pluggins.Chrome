@@ -1,14 +1,16 @@
-Object.defineProperty(Node.prototype, "calculateXPath", {
-	value: calculateXPath,
-	writable: true,
-	configurable: true
-});
-
-Object.defineProperty(Document.prototype, "getElementByXPath", {
-	value: getElementByXPath,
-	writable: true,
-	configurable: true
-});
+export default function() {
+	Object.defineProperty(Node.prototype, "calculateXPath", {
+		value: calculateXPath,
+		writable: true,
+		configurable: true
+	});
+	
+	Object.defineProperty(Document.prototype, "getElementByXPath", {
+		value: getElementByXPath,
+		writable: true,
+		configurable: true
+	});
+}
 
 function getElementByXPath(xPath) {
 	var evaluation = this.evaluate(xPath, document, null, XPathResult.ANY_TYPE, null);

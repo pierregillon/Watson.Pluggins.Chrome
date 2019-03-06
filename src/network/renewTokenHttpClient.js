@@ -1,4 +1,4 @@
-function RenewTokenHttpClient(httpClient, settings, authenticationService) {
+export default function RenewTokenHttpClient(httpClient, settings, authenticationService) {
     var self = this;
 
     self.GET = function(url) {

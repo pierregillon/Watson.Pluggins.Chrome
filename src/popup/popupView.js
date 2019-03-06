@@ -1,4 +1,4 @@
-function PopupView() {
+export default function PopupView() {
     var self = this;
 
     let reportFactButton = document.getElementById('saveFakeNews');
