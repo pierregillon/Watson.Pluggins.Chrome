@@ -1,12 +1,12 @@
 import extendDomWithXPath from './xpath'
 import extendStrings from '../../utils/stringExtensions'
+import Overlay from './overlay'
 
 extendDomWithXPath();
 extendStrings();
 
-const overlay = new Overlay();
+const overlay = new Overlay(document.body);
 const suspiciousFactClassNames = "watson fact suspicious";
-const suspiciousFactOverlayClassNames = "watson fact overlay";
 
 chrome.runtime.onMessage.addListener(function (msg, _, sendResponse) {
     if (msg.type == "suspiciousFactsLoaded") {
@@ -148,34 +148,5 @@ function createHighlightElement() {
         if (this.overlaying) {
             overlay.show(event.pageX, event.pageY);
         }
-    }
-}
-
-function Overlay() {
-    var self = this;
-    var domElement = null;
-
-    self.show = function(x, y) {
-        if (!domElement) {
-            domElement = createDomElement();
-            document.body.append(domElement);
-        }
-        domElement.style.left = (x + 5) + "px";
-        domElement.style.top = (y - 35) + "px";
-    }
-
-    self.hide = function() {
-        if(domElement) {
-            document.body.removeChild(domElement);
-            domElement = null;
-        }
-    }
-
-    function createDomElement() {
-        var overlay = document.createElement('SPAN');
-        var imageUrl = chrome.runtime.getURL('images/icon-detective16.png');
-        overlay.innerHTML = "<img src=\"" + imageUrl + "\"> This fact has been reported as <strong>suspicious</strong> by a user.";
-        overlay.className = suspiciousFactOverlayClassNames;
-        return overlay;        
     }
 }
