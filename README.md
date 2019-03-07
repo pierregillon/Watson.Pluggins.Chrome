@@ -9,7 +9,7 @@ All features are in progress. No version is available yet. Subscribe to this rep
 
 # v1.0 Features
 * [DONE] During the web browsing, automatically highlight suspicious facts reported by the community
-* [IN PROGRESS] Contribute by highlighting text and submit it to the community tp warn and require further investigation
+* [IN PROGRESS] Contribute by highlighting text and submit it to the community to warn and require further investigation
 
 # Next releases
 * Contribute by investigating fact and link other sources (web sites) that are validing/invalidating those fact.
@@ -21,6 +21,7 @@ All features are in progress. No version is available yet. Subscribe to this rep
 * Cache domains that already contains at least one suspicious fact in its web pages, in order to avoid http web requests to Watson Api for every pages browsed by any users.
 
 # todo list
-- use web pack
 - translate plugin with i18n (fr, en)
 - continuous integration with appveyor ?
+- dynamic web page content ?
+- url different (facebook parameter, ...)
