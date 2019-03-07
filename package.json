@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "test": "mocha ./src/**/*.spec.js --require ./node_modules/@babel/register",
+    "tdd": "mocha ./src/**/*.spec.js --require ./node_modules/@babel/register --watch",
     "build": "webpack --config webpack.config.js --mode=production",
     "start": "webpack --config webpack.config.js --mode=development --devtool=inline-source-map --watch"
   },
