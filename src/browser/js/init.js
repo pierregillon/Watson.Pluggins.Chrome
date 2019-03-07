@@ -1,8 +1,6 @@
-import extendDomWithXPath from './xpath'
+import './xpath'
 import '../../utils/stringExtensions'
 import Overlay from './overlay'
-
-extendDomWithXPath();
 
 const overlay = new Overlay(document.body);
 const suspiciousFactClassNames = "watson_fact_suspicious";
