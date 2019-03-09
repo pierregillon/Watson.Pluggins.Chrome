@@ -20,10 +20,10 @@ All features are in progress. No version is available yet. Subscribe to this rep
 * Visualize with a table base view the facts of the present web document
 
 # Technical features
-* Cache domains that already contains at least one suspicious fact in its web pages, in order to avoid http web requests to Watson Api for every pages browsed by any users.
+* [TODO] Cache domains that already contains at least one suspicious fact in its web pages, in order to avoid http web requests to Watson Api for every pages browsed by any users.
+* [TODO] Translate pluggin English and French (i18n chrome)
 
 # todo list
-- translate plugin with i18n (fr, en)
-- continuous integration with appveyor ?
 - dynamic web page content ?
 - url different (facebook parameter, ...)
+- automatic deployment in github releases on tags
