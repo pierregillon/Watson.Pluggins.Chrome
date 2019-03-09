@@ -3,11 +3,10 @@ node_js:
   - "node"
 before_script:
   - npm install -g mocha
-# deploy:
-#   provider: releases
-#   api_key: "GITHUB OAUTH TOKEN"
-#   file: "./dist/**/*"
-#   skip_cleanup: true
-#   on:
-#     tags: true
-# https://docs.travis-ci.com/user/deployment/releases/
+deploy:
+  provider: releases
+  api_key: "ace28b597de7fa746c3d4e605bb47bd0fc4b1a81"
+  file: "./dist/**/*"
+  skip_cleanup: true
+  on:
+    tags: true
