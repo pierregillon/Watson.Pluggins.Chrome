@@ -1,11 +1,11 @@
-span.watson.fact.suspicious {
+span.watson_fact_suspicious {
     background:rgba(255, 255, 0, 0.5) !important;
 }
-span.watson.fact.suspicious:hover {
+span.watson_fact_suspicious:hover {
     border: solid rgba(255, 99, 33, 1) 1px !important;
     cursor: pointer;
 }
-span.watson.fact.overlay {
+span.watson_fact_overlay {
     padding: 5px;
     position: absolute;
     background-color: #ffe6e6;

@@ -9,6 +9,15 @@ module.exports = {
       popup: "./src/popup/popup.js",
       background: "./src/background.js"
   },
+  module: {
+    rules: [{
+        test: /\.js/,
+        exclude: /(node_modules|bower_components)/,
+        use: [{
+            loader: 'babel-loader'
+        }]
+    }]
+  },
   plugins: [
     new ChromeExtensionReloader({
       entries: {

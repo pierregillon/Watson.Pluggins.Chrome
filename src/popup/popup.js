@@ -4,9 +4,7 @@ import AuthenticationService from '../api/authenticationService'
 import FactRepository from '../api/factRepository'
 import PopupView from './popupView'
 import PopupController from './popupController'
-import extendStrings from '../utils/stringExtensions'
-
-extendStrings();
+import '../utils/stringExtensions'
 
 var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
 var authenticationService = new AuthenticationService(client, chrome.storage.sync);
