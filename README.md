@@ -26,4 +26,3 @@ All features are in progress. No version is available yet. Subscribe to this rep
 # todo list
 - dynamic web page content ?
 - url different (facebook parameter, ...)
-- automatic deployment in github releases on tags
