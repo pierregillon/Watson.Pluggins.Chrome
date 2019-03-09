@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pierregillon/Watson.Pluggins.Chrome.svg)](https://travis-ci.org/pierregillon/Watson.Pluggins.Chrome)
+
 # What is Watson ?
 Watson is a collaborative web media fact checker.
 
