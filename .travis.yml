@@ -5,7 +5,7 @@ before_script:
   - npm install -g mocha
 deploy:
   provider: releases
-  api_key: "3af9fbd72e7519e5a2f61f1723dcca6e649516b6"
+  api_key: "$GithubOAuth"
   file: "./dist/**/*"
   skip_cleanup: true
   on:
