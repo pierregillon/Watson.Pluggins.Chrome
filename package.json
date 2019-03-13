@@ -1,6 +1,6 @@
 {
   "name": "watson.pluggins.chrome",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "This project is a chrome pluggin that uses Watson.Api to retrieve suspicious fact during web browsing.",
   "private": true,
   "scripts": {

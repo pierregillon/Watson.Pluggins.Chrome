@@ -7,7 +7,7 @@ Watson is a collaborative web media fact checker.
 The Chrome plugin (extension) helps you to visualise text, sentences in web pages **that are suspected to be false** and let you contribute yourself **by submitting suspicious facts** to the community.
 
 # Features
-All features are in progress. No version is available yet. Subscribe to this repository to get posted.
+All features are in progress. No version is available yet on the market. Subscribe to this repository to get posted.
 
 ## v1.0 Features
 - [x] During the web browsing, automatically highlight suspicious facts reported by the community
