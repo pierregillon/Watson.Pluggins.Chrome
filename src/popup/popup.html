@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <link rel="stylesheet" href="./popup.css" />
+    </head>
+    <body>
+      <h1><img src="./images/icon-detective48.png" /> Watson</h1>
+      <p id="noTextSelected">
+        No text selected. To report suspicious fact to the community, select text
+        in the page and re-open Watson extension.
+      </p>
+      <div id="fact">
+          <p class="quote">"<span id="selectedText"></span>"</p>
+          <p id="source">http://mywebsite.com</p>
+      </div>
+      <button id="saveFakeNews">Report this suspicious fact</button>
+      <p id="error" ></p>
+      <p id="success"></p>
+      <script src="./popup.bundle.js"></script>
+    </body>
+  </html>

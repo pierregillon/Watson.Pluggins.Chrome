@@ -1,4 +1,4 @@
-function FactRepository(httpClient) {
+export default function FactRepository(httpClient) {
     var self = this;
     var apiRoute = "/api/fact";
 
