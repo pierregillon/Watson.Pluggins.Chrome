@@ -6,11 +6,11 @@ before_script:
 script:
   - npm test
   - npm run build
-  - cd ./dist && zip -r ./Watson.Pluggins.Chrome_$TRAVIS_TAG.zip . && cd ..
+  - cd ./dist && zip -r ./Watson.Plugins.Chrome_$TRAVIS_TAG.zip . && cd ..
 deploy:
   provider: releases
   api_key: "$GithubOAuth"
-  file: ./dist/Watson.Pluggins.Chrome_$TRAVIS_TAG.zip
+  file: ./dist/Watson.Plugins.Chrome_$TRAVIS_TAG.zip
   skip_cleanup: true  
   on:
     tags: true

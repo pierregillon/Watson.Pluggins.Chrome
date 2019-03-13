@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pierregillon/Watson.Pluggins.Chrome.svg)](https://travis-ci.org/pierregillon/Watson.Pluggins.Chrome)
+[![Build Status](https://travis-ci.org/pierregillon/Watson.Plugins.Chrome.svg)](https://travis-ci.org/pierregillon/Watson.Plugins.Chrome)
 
 # What is Watson ?
 Watson is a collaborative web media fact checker.
@@ -55,7 +55,7 @@ The tests are written using :
 * Chai
 
 # Versioning
-The project use [SemVer](http://semver.org/) for versioning. For the versions available, see [the tags on this repository](https://github.com/pierregillon/Watson.Pluggins.Chrome/releases).
+The project use [SemVer](http://semver.org/) for versioning. For the versions available, see [the tags on this repository](https://github.com/pierregillon/Watson.Plugins.Chrome/releases).
 
 # License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

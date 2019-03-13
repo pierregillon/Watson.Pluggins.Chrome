@@ -1,7 +1,7 @@
 {
-  "name": "watson.pluggins.chrome",
+  "name": "watson.plugins.chrome",
   "version": "0.1.0",
-  "description": "This project is a chrome pluggin that uses Watson.Api to retrieve suspicious fact during web browsing.",
+  "description": "This project is a chrome plugin that uses Watson.Api to retrieve suspicious fact during web browsing.",
   "private": true,
   "scripts": {
     "test": "mocha ./src/**/*.spec.js --require ./node_modules/@babel/register",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pierregillon/Watson.Pluggins.Chrome.git"
+    "url": "git+https://github.com/pierregillon/Watson.Plugins.Chrome.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pierregillon/Watson.Pluggins.Chrome/issues"
+    "url": "https://github.com/pierregillon/Watson.Plugins.Chrome/issues"
   },
-  "homepage": "https://github.com/pierregillon/Watson.Pluggins.Chrome#readme",
+  "homepage": "https://github.com/pierregillon/Watson.Plugins.Chrome#readme",
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
