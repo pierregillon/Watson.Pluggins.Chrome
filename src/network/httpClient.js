@@ -52,7 +52,7 @@ export default function HttpClient(server, settings) {
 
     function configureClient(client, token, resolve, reject) {
         if (token) {
-            client.setRequestHeader("Authorization", token.value);
+            client.setRequestHeader("Authorization", "Bearer " + token.value);
         }
         client.onload = function () {
             var result = {
