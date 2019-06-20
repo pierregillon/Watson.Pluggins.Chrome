@@ -15,7 +15,7 @@ All features are in progress. No production version is available yet. Subscribe 
 
 ## In progress
 Features
-- [ ] List facts when same page but slightly different url (some parameters may be different)
+- [x] List facts when same page but slightly different url (some parameters may be different)
 - [ ] Contribute by investigating fact and link other sources (web sites) that are validing/invalidating those fact.
 - [ ] Can upvote a supicious fact in order to indicate that further investigation is appreciated
 - [ ] Can downvote a suspicious fact to indicate it is not a fact and need to be removed
