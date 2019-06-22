@@ -6,7 +6,7 @@ import PopupView from './popupView'
 import PopupController from './popupController'
 import '../utils/stringExtensions'
 
-var client = new HttpClient("http://localhost:5000", chrome.storage.sync);
+var client = new HttpClient(WATSON_API_URL, chrome.storage.sync);
 var authenticationService = new AuthenticationService(client, chrome.storage.sync);
 var renewClient = new RenewTokenHttpClient(client, chrome.storage.sync, authenticationService);
 var factRepository = new FactRepository(renewClient);

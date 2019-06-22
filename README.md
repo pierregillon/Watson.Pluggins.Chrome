@@ -22,7 +22,7 @@ Features
 - [ ] Visualize with a table base view the facts of the present web document
 
 Technical
-- [ ] Add Watson api server name in configuration and use it when building Chrome package with Babel
+- [x] Add Watson api server name in configuration and use it when building Chrome package with Babel
 - [ ] Optimize api calls. Cache domains that already contains at least one suspicious fact in its web pages, in order to avoid http web requests to Watson Api for every pages browsed by any users.
 - [ ] Translate plugin in English and French (i18n chrome)
 
