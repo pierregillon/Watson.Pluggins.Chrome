@@ -9,7 +9,7 @@ The Chrome plugin (extension) helps you to visualise text, sentences in web page
 # Features
 All features are in progress. No production version is available yet. Subscribe to this repository to get posted.
 
-## Implemented (v1.0)
+## Implemented (v0.1)
 - [x] During the web browsing, automatically highlight suspicious facts reported by the community
 - [x] Contribute by highlighting text and submit it to the community to warn and require further investigation
 
