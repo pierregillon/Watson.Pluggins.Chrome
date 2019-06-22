@@ -5,7 +5,7 @@ before_script:
   - npm install -g mocha
 script:
   - npm test
-  - npm run build
+  - WATSON_API_URL=$WatsonApiUrl npm run build
   - cd ./dist && zip -r ./Watson.Plugins.Chrome_$TRAVIS_TAG.zip . && cd ..
 deploy:
   provider: releases

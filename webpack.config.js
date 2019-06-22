@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-let config = require('./configuration.json');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ChromeExtensionReloader  = require('webpack-chrome-extension-reloader');
@@ -36,7 +35,7 @@ module.exports = {
       { from: './src/images', to: './images' },
     ]),
     new webpack.DefinePlugin({
-      'WATSON_API_URL': JSON.stringify(config.watsonApiUrl)
+      'WATSON_API_URL': JSON.stringify(process.env.WATSON_API_URL || "http://localhost:5000")
     })
   ],
   output: {
