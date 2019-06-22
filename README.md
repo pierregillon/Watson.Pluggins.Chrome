@@ -48,15 +48,18 @@ npm run build
 3. Open the ./dist folder from chrome://extensions/ => load unpacked extensions
 
 ## Running the tests
+The tests are written using :
+* [Mocha](https://mochajs.org/)
+* [Chai](https://www.chaijs.com/)
+
+Be sure mocha is installed globally :
+```
+npm install mocha -g
+```
 To run the tests :
 ```
 npm test
 ```
-
-The tests are written using :
-* Mocha
-* Chai
-
 # Versioning
 The project use [SemVer](http://semver.org/) for versioning. For the versions available, see [the tags on this repository](https://github.com/pierregillon/Watson.Plugins.Chrome/releases).
 
