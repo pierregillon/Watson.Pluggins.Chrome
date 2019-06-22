@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+let config = require('./configuration.json');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ChromeExtensionReloader  = require('webpack-chrome-extension-reloader');
@@ -33,6 +35,9 @@ module.exports = {
       { from: './src/browser/css/global.css', to: './' },
       { from: './src/images', to: './images' },
     ]),
+    new webpack.DefinePlugin({
+      'WATSON_API_URL': JSON.stringify(config.watsonApiUrl)
+    })
   ],
   output: {
     filename: '[name].bundle.js',
